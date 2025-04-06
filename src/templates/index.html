@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICSE Chemistry Question Generator</title>
+    <style>
+        :root {
+            --neon-primary: #0ff;
+            --neon-secondary: #f0f;
+            --neon-accent: #ff0;
+            --bg-dark: #0a0a0a;
+            --bg-darker: #050505;
+            --text-primary: #fff;
+            --text-secondary: #ccc;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', monospace;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 255, 255, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255, 0, 255, 0.1) 0%, transparent 20%);
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background-color: var(--bg-darker);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 
+                0 0 10px var(--neon-primary),
+                0 0 20px var(--neon-secondary),
+                0 0 30px var(--neon-accent);
+            border: 1px solid var(--neon-primary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--neon-primary), var(--neon-secondary), var(--neon-accent));
+            z-index: -1;
+            border-radius: 12px;
+            animation: borderGlow 3s linear infinite;
+        }
+
+        @keyframes borderGlow {
+            0% { filter: blur(5px) brightness(1); }
+            50% { filter: blur(5px) brightness(1.5); }
+            100% { filter: blur(5px) brightness(1); }
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--neon-primary);
+            text-shadow: 0 0 10px var(--neon-primary);
+            font-size: 2.5rem;
+            letter-spacing: 2px;
+            animation: textGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes textGlow {
+            from { text-shadow: 0 0 10px var(--neon-primary); }
+            to { text-shadow: 0 0 20px var(--neon-primary), 0 0 30px var(--neon-secondary); }
+        }
+
+        .input-container {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            align-items: center;
+            justify-content: center;
+        }
+
+        input[type="number"] {
+            padding: 0.8rem 1.2rem;
+            border: 2px solid var(--neon-primary);
+            border-radius: 5px;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            width: 100px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            box-shadow: 0 0 10px var(--neon-primary);
+        }
+
+        button {
+            padding: 0.8rem 1.5rem;
+            background-color: transparent;
+            border: 2px solid var(--neon-primary);
+            color: var(--neon-primary);
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button:hover {
+            background-color: var(--neon-primary);
+            color: var(--bg-dark);
+            box-shadow: 0 0 20px var(--neon-primary);
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        button:hover::before {
+            left: 100%;
+        }
+
+        .loading {
+            text-align: center;
+            color: var(--neon-primary);
+            margin: 1rem 0;
+            display: none;
+        }
+
+        .error {
+            color: #ff4444;
+            text-align: center;
+            margin: 1rem 0;
+            display: none;
+            text-shadow: 0 0 10px #ff4444;
+        }
+
+        .question-container {
+            margin-top: 2rem;
+        }
+
+        .question {
+            background-color: rgba(10, 10, 10, 0.8);
+            border: 1px solid var(--neon-secondary);
+            border-radius: 5px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .question:hover {
+            box-shadow: 0 0 15px var(--neon-secondary);
+            transform: translateY(-2px);
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            color: var(--neon-accent);
+        }
+
+        .marks {
+            background-color: var(--neon-accent);
+            color: var(--bg-dark);
+            padding: 0.3rem 0.6rem;
+            border-radius: 3px;
+            font-weight: bold;
+            box-shadow: 0 0 10px var(--neon-accent);
+        }
+
+        .question-type {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--neon-primary);
+        }
+
+        .question-text {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .options {
+            display: grid;
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+
+        .option {
+            padding: 0.8rem;
+            border: 1px solid var(--neon-primary);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .option:hover {
+            background-color: rgba(0, 255, 255, 0.1);
+            box-shadow: 0 0 10px var(--neon-primary);
+        }
+
+        .answer {
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: rgba(0, 255, 0, 0.1);
+            border: 1px solid #0f0;
+            border-radius: 5px;
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .show-answer {
+            background-color: transparent;
+            border: 1px solid #0f0;
+            color: #0f0;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .show-answer:hover {
+            background-color: rgba(0, 255, 0, 0.2);
+            box-shadow: 0 0 10px #0f0;
+        }
+
+        /* Add a subtle grid overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 255, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            pointer-events: none;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ICSE Chemistry Question Generator</h1>
+        
+        <div class="input-container">
+            <input type="number" id="numQuestions" min="1" max="20" value="5" placeholder="Number of questions">
+            <button onclick="generateQuestions()">Generate Questions</button>
+        </div>
+
+        <div class="loading" id="loading">Generating questions...</div>
+        <div class="error" id="error"></div>
+
+        <div class="question-container" id="questionContainer"></div>
+    </div>
+
+    <script>
+        function generateQuestions() {
+            const numQuestions = document.getElementById('numQuestions').value;
+            const loading = document.getElementById('loading');
+            const error = document.getElementById('error');
+            const questionContainer = document.getElementById('questionContainer');
+
+            // Validate input
+            if (numQuestions < 1 || numQuestions > 20) {
+                error.textContent = 'Please enter a number between 1 and 20';
+                error.style.display = 'block';
+                loading.style.display = 'none';
+                return;
+            }
+
+            // Show loading and clear previous content
+            loading.style.display = 'block';
+            error.style.display = 'none';
+            questionContainer.innerHTML = '';
+
+            // Make API call
+            fetch('/generate_questions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `num_questions=${numQuestions}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                loading.style.display = 'none';
+                
+                if (data.error) {
+                    error.textContent = data.error;
+                    error.style.display = 'block';
+                    return;
+                }
+
+                // Display questions
+                data.questions.forEach((question, index) => {
+                    const questionDiv = document.createElement('div');
+                    questionDiv.className = 'question';
+                    
+                    // Create question header
+                    const header = document.createElement('div');
+                    header.className = 'question-header';
+                    header.innerHTML = `
+                        <span class="question-type">${question.type.toUpperCase()}</span>
+                        <span class="marks">${question.marks} Marks</span>
+                    `;
+                    
+                    // Create question content
+                    const content = document.createElement('div');
+                    content.className = 'question-content';
+                    content.innerHTML = `
+                        <div class="question-text">${index + 1}. ${question.text}</div>
+                    `;
+                    
+                    // Add options for MCQ questions
+                    if (question.type === 'mcq' && question.options) {
+                        const optionsDiv = document.createElement('div');
+                        optionsDiv.className = 'options';
+                        question.options.forEach((option, i) => {
+                            const optionDiv = document.createElement('div');
+                            optionDiv.className = 'option';
+                            optionDiv.textContent = `${String.fromCharCode(65 + i)}. ${option}`;
+                            optionsDiv.appendChild(optionDiv);
+                        });
+                        content.appendChild(optionsDiv);
+                    }
+                    
+                    // Add answer section
+                    const answerDiv = document.createElement('div');
+                    answerDiv.className = 'answer';
+                    answerDiv.innerHTML = `
+                        <strong>Answer:</strong><br>
+                        ${question.answer}
+                    `;
+                    
+                    // Add show answer button
+                    const showAnswerBtn = document.createElement('button');
+                    showAnswerBtn.className = 'show-answer';
+                    showAnswerBtn.textContent = 'Show Answer';
+                    showAnswerBtn.onclick = () => {
+                        answerDiv.style.display = answerDiv.style.display === 'none' ? 'block' : 'none';
+                        showAnswerBtn.textContent = answerDiv.style.display === 'none' ? 'Show Answer' : 'Hide Answer';
+                    };
+                    
+                    // Assemble question
+                    questionDiv.appendChild(header);
+                    questionDiv.appendChild(content);
+                    questionDiv.appendChild(showAnswerBtn);
+                    questionDiv.appendChild(answerDiv);
+                    questionContainer.appendChild(questionDiv);
+                });
+            })
+            .catch(err => {
+                loading.style.display = 'none';
+                error.textContent = 'An error occurred while generating questions.';
+                error.style.display = 'block';
+                console.error('Error:', err);
+            });
+        }
+    </script>
+</body>
+</html> 
