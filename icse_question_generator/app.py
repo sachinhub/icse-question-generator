@@ -1,5 +1,5 @@
 from flask import Flask, render_template, jsonify, request
-from icse_question_generator.knowledge_base.chemistry_kb import ChemistryKnowledgeBase
+from .knowledge_base.chemistry_kb import ChemistryKnowledgeBase
 import random
 
 app = Flask(__name__)

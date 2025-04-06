@@ -1,1 +1,1 @@
-web: pip install -e . && gunicorn --workers=4 --bind=0.0.0.0:$PORT --timeout=120 --access-logfile - --error-logfile - src.app:app 
+web: pip install -e . && gunicorn --workers=4 --bind=0.0.0.0:$PORT --timeout=120 --access-logfile - --error-logfile - icse_question_generator.app:app 

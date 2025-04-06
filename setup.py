@@ -19,4 +19,9 @@ setup(
         "MarkupSafe==2.1.3"
     ],
     python_requires='>=3.11.0',
+    entry_points={
+        'console_scripts': [
+            'icse-question-generator=icse_question_generator.app:app',
+        ],
+    },
 ) 
