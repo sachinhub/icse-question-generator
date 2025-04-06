@@ -1,1 +1,1 @@
-web: gunicorn --workers=4 --bind=0.0.0.0:$PORT src.app:app 
+web: pip install -e . && gunicorn --workers=4 --bind=0.0.0.0:$PORT --timeout=120 src.app:app 
