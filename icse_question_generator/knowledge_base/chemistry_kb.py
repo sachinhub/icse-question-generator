@@ -96,6 +96,41 @@ class ChemistryKnowledgeBase:
                     "Electronic configuration": "Electronic configuration describes how electrons are arranged in an atom's shells. For example, oxygen has electronic configuration 2,6, meaning 2 electrons in the first shell and 6 in the second.",
                     "Valency": "Valency is the combining capacity of an atom. It is determined by the number of electrons in the outermost shell. For example, oxygen has valency 2 as it needs 2 more electrons to complete its outer shell."
                 }
+            ),
+            4: Chapter(
+                number=4,
+                title="Language of Chemistry",
+                topics=[
+                    "Chemical symbols",
+                    "Chemical formulas",
+                    "Chemical equations",
+                    "Valency and radicals",
+                    "Balancing chemical equations"
+                ],
+                key_concepts=[
+                    "Chemical symbols are abbreviations for elements",
+                    "Chemical formulas represent the composition of compounds",
+                    "Chemical equations show chemical reactions",
+                    "Valency is the combining capacity of an element",
+                    "Radicals are groups of atoms that behave as a single unit"
+                ],
+                content={
+                    "Chemical symbols": "Chemical symbols are one or two-letter abbreviations used to represent elements. For example, H for Hydrogen, O for Oxygen, and Na for Sodium. The first letter is always capitalized, and if there's a second letter, it's lowercase.",
+                    "Chemical formulas": "Chemical formulas represent the composition of compounds using symbols and numbers. For example, H2O for water (2 hydrogen atoms and 1 oxygen atom), CO2 for carbon dioxide, and NaCl for sodium chloride.",
+                    "Chemical equations": "Chemical equations represent chemical reactions using symbols and formulas. They show reactants on the left and products on the right, separated by an arrow. For example: 2H2 + O2 → 2H2O",
+                    "Valency and radicals": "Valency is the combining capacity of an element. Common valencies: H(1), O(2), N(3), C(4). Radicals are groups of atoms that behave as a single unit, like OH- (hydroxide), SO4 2- (sulfate), and NO3- (nitrate).",
+                    "Balancing chemical equations": "Balancing chemical equations ensures the same number of atoms of each element on both sides. For example: 2H2 + O2 → 2H2O is balanced (4 H atoms and 2 O atoms on both sides)."
+                },
+                important_formulas=[
+                    "Water: H2O",
+                    "Carbon dioxide: CO2",
+                    "Sodium chloride: NaCl",
+                    "Hydrogen peroxide: H2O2",
+                    "Ammonia: NH3",
+                    "Sulfuric acid: H2SO4",
+                    "Nitric acid: HNO3",
+                    "Hydrochloric acid: HCl"
+                ]
             )
         }
         return chapters
