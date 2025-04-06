@@ -1,0 +1,3 @@
+[console_scripts]
+icse-question-generator = icse_question_generator.app:app
+

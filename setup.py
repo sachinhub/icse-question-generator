@@ -3,7 +3,8 @@ from setuptools import setup, find_packages
 setup(
     name="icse-question-generator",
     version="0.1.0",
-    packages=find_packages(),
+    packages=find_packages(where="."),
+    package_dir={"": "."},
     include_package_data=True,
     package_data={
         'icse_question_generator': ['templates/*', 'static/*'],
@@ -18,7 +19,7 @@ setup(
         "Jinja2==3.1.2",
         "MarkupSafe==2.1.3"
     ],
-    python_requires='>=3.11.0',
+    python_requires=">=3.8.0",
     entry_points={
         'console_scripts': [
             'icse-question-generator=icse_question_generator.app:app',
